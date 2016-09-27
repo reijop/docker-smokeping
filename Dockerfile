@@ -7,6 +7,8 @@ RUN \
 	apache2 \
 	apache2-utils \
 	curl \
+        bind-tools \
+        fping \
 	smokeping \
 	ssmtp \
 	sudo
