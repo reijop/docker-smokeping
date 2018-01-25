@@ -2,6 +2,7 @@
 
 # create folders
 mkdir -p \
+	/config/site-confs \
 	/run/apache2 \
 	/var/cache/smokeping
 
@@ -9,11 +10,12 @@ mkdir -p \
 
 PREV_DIR=$(pwd)
 
-cd /defaults/smoke-conf || exit
-	for i in $(find . -type f)
+	cd /defaults/smoke-conf || exit
+	shopt -s globstar nullglob
+	for i in *
  	do
-		[[ ! -e "/config/${i}" ]] && cp -v "${i}" "/config/${i}"
- 	done
+	[[ ! -e "/config/${i}" ]] && cp -v "${i}" "/config/${i}"
+	done
 
 cd "${PREV_DIR}" || exit
 
@@ -23,6 +25,9 @@ cd "${PREV_DIR}" || exit
 
 [[ ! -e /var/www/localhost/smokeping/cache ]] && ln -s \
 	/var/cache/smokeping /var/www/localhost/smokeping/cache
+
+[[ ! -e /config/site-confs/smokeping.conf ]] && \
+	cp /defaults/smokeping.conf /config/site-confs/smokeping.conf
 
 # permissions
 chown -R abc:abc \
